@@ -19,45 +19,32 @@ public class Car {
     static int id = 0;
     private String name;
     private int index;
-    private int booking;
+    private boolean booked;
 
-    public Car(String name, int booking) {
+    public Car(String name, boolean booked) {
         this.name = name;
-        this.booking = booking;
+        this.booked = booked;
         this.index = id;
         id++;
     }
 
     public Car(String name) {
         this.name = name;
-
     }
 
     public Car() {
-
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return name.equals(car.name);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    public int getBooking() {
-        return booking;
-    }
-
-    public void setBooking(int booking) {
-        this.booking = booking;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

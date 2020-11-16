@@ -11,12 +11,11 @@ public class Main {
     private static final int BOOK = 5;
 
 
+    private static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
         List<Car> cars = new ArrayList<>();
-
-
 
 
         int option;
@@ -35,6 +34,7 @@ public class Main {
                     System.out.println("Your'e adding a car........");
 
                     int optionOfCars;
+                    Car car;
                     do {
                         System.out.println("--------------------------------");
                         System.out.println("0 - stop");
@@ -46,13 +46,18 @@ public class Main {
                         switch (optionOfCars) {
                             case 1:
                                 System.out.println("What car do you need to add?");
-                                Car car2 = add(sc);
-                                cars.add(car2);
+                                car = add();
+                                cars.add(car);
                                 System.out.println(cars.toString());
                                 break;
                             case 2:
-                                System.out.println("Add cars?");
-                                cars.addAll(cars);
+                                System.out.println("Add cars.");
+                                System.out.println("How many?");
+                                int number = sc.nextInt();
+                                for (int i = 0; i < number; i++) {
+                                    car = add();
+                                    cars.add(car);
+                                }
                                 System.out.println(cars.toString());
                                 break;
                         }
@@ -61,7 +66,7 @@ public class Main {
                     break;
                 case SELL:
                     System.out.println("Your'e selling a car........");
-                    removeCar(sc, cars);
+                    removeCar(cars);
                     System.out.println(cars.toString());
                     break;
                 case LIQUIDATION:
@@ -71,74 +76,61 @@ public class Main {
                     break;
                 case CHECK:
                     System.out.println("Your'e checking a car........");
-                    has(sc, cars);
+                    has(cars);
                     break;
                 case BOOK:
                     System.out.println("Your'e booking a car........");
                     System.out.println("What car do you want to rent?");
-                    Scanner sc2 = new Scanner(System.in);
+
                     System.out.println("Enter an index: ");
-                   /* int indextoEnter = sc.nextInt();
-                    for (int i = 0; i < cars.size(); i++) {
-                        System.out.println(cars.get(indextoEnter));
+                    int indextoEnter = sc.nextInt();
+
+                    Car carFinded = cars.get(indextoEnter);
+                    if(carFinded.isBooked()){
+                        System.out.println("Is booked.");
+                    } else {
+                        carFinded.setBooked(true);
                     }
-                    Scanner sc3 = new Scanner(System.in);
-                    System.out.println("Enter an index: ");
+                    break;
 
-                    CarDealership carDealership = new CarDealership();
-                    System.out.println("Enter old status");
-                    int old = sc3.nextInt();
-                    System.out.println("Enter neu status");
-                    int neu = sc3.nextInt();
-                    carDealership.changeCar(old, neu);
-                    System.out.println(cars.toString());
-
-
-                            break;*/
-
-                    }
+            }
 
         }
         while (option != STOP_PROGRAM);
     }
 
 
-
-
-    private static void has (Scanner sc, List < Car > cars){
-            System.out.println("Enter a name");
-            String name = sc.next();
-            boolean check = cars.contains(name);
-            if (check == true) {
-                System.out.println("is contained in the list");
-            } else {
-                System.out.println(" is not contained in the list");
-            }
+    private static void has(List<Car> cars) {
+        System.out.println("Enter a name");
+        String name = sc.next();
+        Car carToFind = new Car(name);
+        boolean check = cars.contains(carToFind);
+        if (check == true) {
+            System.out.println("is contained in the list");
+        } else {
+            System.out.println(" is not contained in the list");
         }
-
-
-
-        private static void removeCar (Scanner sc, List < Car > cars){
-            System.out.println("What index do you want to remove: ");
-            int index = sc.nextInt();
-            cars.remove(index);
-        }
-
-
-        private static Car add (Scanner sc){
-            System.out.println("Enter a name: ");
-            String name = sc.next();
-            System.out.println("Enter 0 - to rent, or 1 - rent");
-            int book = sc.nextInt();
-            Car car = new Car(name, book);
-            return car;
-
-        }
-
-
-
-
     }
+
+
+    private static void removeCar(List<Car> cars) {
+        System.out.println("What index do you want to remove: ");
+        int index = sc.nextInt();
+        cars.remove(index);
+    }
+
+
+    private static Car add() {
+        System.out.println("Enter a name: ");
+        String name = sc.next();
+        System.out.println("Enter 0 - to rent, or 1 - rent");
+        boolean book = sc.nextInt() == 0 ? false : true;
+        Car car = new Car(name, book);
+        return car;
+    }
+
+
+}
 
     /*
 
